@@ -1,0 +1,8 @@
+// Doing sync this one for security reason.
+.aws
+
+// Mac related sync
+Library
+
+// I use .spacemacs
+.emacs.d
