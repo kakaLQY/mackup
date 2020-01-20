@@ -6,3 +6,6 @@ Library
 
 // I use .spacemacs
 .emacs.d
+
+// Remove docker from sync
+.docker
