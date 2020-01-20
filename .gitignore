@@ -9,3 +9,6 @@ Library
 
 // Remove docker from sync
 .docker
+
+// Remove gitconfig
+.gitconfig
