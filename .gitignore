@@ -1,17 +1,17 @@
-// Doing sync this one for security reason.
+# Doing sync this one for security reason.
 .aws
 
-// Mac related sync
+# Mac related sync
 Library
 
-// I use .spacemacs
+# I use .spacemacs
 .emacs.d
 
-// Remove docker from sync
+# Remove docker from sync
 .docker
 
-// Remove gitconfig
+# Remove gitconfig
 .gitconfig
 
-// Remove .fasd
+# Remove .fasd
 .fasd
