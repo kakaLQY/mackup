@@ -1,19 +1,5 @@
-# rbenv
-set -gx PATH '/Users/kaka/.rbenv/shims' $PATH
-set -gx RBENV_SHELL fish
-source '/usr/local/Cellar/rbenv/1.1.2/libexec/../completions/rbenv.fish'
-command rbenv rehash 2>/dev/null
-function rbenv
-  set command $argv[1]
-  set -e argv[1]
-
-  switch "$command"
-  case rehash shell
-    source (rbenv "sh-$command" $argv|psub)
-  case '*'
-    command rbenv "$command" $argv
-  end
-end
+# Locale for Emacs
+set -x LC_ALL en_US.UTF-8
 
 # FZF
 set -x FZF_DEFAULT_COMMAND 'fd --type file --follow --hidden --exclude .git --exclude target'
