@@ -9,7 +9,7 @@ call plug#begin('~/.vim/plugged')
 " GUI enhancements 
 Plug 'vim-airline/vim-airline'
 Plug 'machakann/vim-highlightedyank' 
-Plug 'morhetz/gruvbox'
+Plug 'dracula/vim'
 
 " Git 
 Plug 'tpope/vim-fugitive'     
@@ -99,7 +99,8 @@ autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
 
 " Colors 
 set background=dark
-colorscheme gruvbox
+color dracula
+set termguicolors
 
 " ============================================================================= 
 " # Keyboard shortcuts 
