@@ -1,3 +1,4 @@
 package fasd
+package foreign-env
 theme batman
 theme default
