@@ -47,6 +47,7 @@ This function should only modify configuration layer settings."
      sql
      yaml
      shell-scripts
+     nixos
 
      ;; Tools
      auto-completion
@@ -74,7 +75,8 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(graphql-mode
+   dotspacemacs-additional-packages '(direnv
+                                      graphql-mode
                                       key-chord
                                       dracula-theme)
 
@@ -488,6 +490,13 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (use-package direnv
+    :demand t
+    :config
+    (direnv-mode)
+    (setq direnv-always-show-summary nil)
+    :hook
+    ((prog-mode) . direnv-update-environment))
 
   ;; jk to change to normal mode
   (require 'key-chord)
