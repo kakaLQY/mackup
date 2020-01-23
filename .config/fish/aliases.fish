@@ -8,7 +8,7 @@ alias ls "exa"
 alias lsl "exa -la"
 
 # Remove or Delete?
-alias rm "rmtrash"
+alias rr "rmtrash"
 alias del "rm"
 
 # Use neovim
