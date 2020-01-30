@@ -517,9 +517,16 @@ before packages are loaded."
             t)
 
   ;; Fuzzy search with ivy
+  ;; https://github.com/hlissner/doom-emacs/blob/c801a70ec740159e8285f3e58daa54264e2d1e80/modules/completion/ivy/config.el#L21-L41
   (setq ivy-re-builders-alist
-        '((swiper . regexp-quote)
-          (t      . ivy--regex-fuzzy)))
+        `((counsel-rg     . ivy--regex-plus)
+          (swiper         . ivy--regex-plus)
+          (swiper-isearch . ivy--regex-plus)
+          (t . ivy--regex-fuzzy))
+        ivy-more-chars-alist
+        '((counsel-rg . 1)
+          (counsel-search . 2)
+          (t . 3)))
 
   ;; Swith SPC and TAB to use double SPC to switch to last buffer.
   (evil-leader/set-key "SPC" 'evil-switch-to-windows-last-buffer)
