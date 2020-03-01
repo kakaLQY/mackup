@@ -52,7 +52,7 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = RobotoMono Nerd Font:pixelsize=16;1
+font-0 = JetBrainsMono:pixelsize=16;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
 
@@ -232,7 +232,7 @@ format-prefix-foreground = ${colors.foreground-alt}
 
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+interface = wlp6s0
 interval = 3.0
 
 format-connected = <label-connected>
