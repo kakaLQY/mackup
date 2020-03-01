@@ -221,12 +221,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("JetBrains Mono";;"Fira Code"
-                               :size 16.0
-                               :weight normal
-                               :width normal)
-
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
@@ -499,6 +493,10 @@ before packages are loaded."
     (setq direnv-always-show-summary nil)
     :hook
     ((prog-mode) . direnv-update-environment))
+
+  ;; Default font or prioritized list of fonts.
+  (set-face-attribute 'default nil :family "JetBrainsMono")
+  (set-face-attribute 'default nil :height (string-to-number (getenv "EMACS_FONT_SIZE")))
 
   ;; jk to change to normal mode
   (require 'key-chord)
