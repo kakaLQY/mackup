@@ -495,7 +495,7 @@ before packages are loaded."
     ((prog-mode) . direnv-update-environment))
 
   ;; Default font or prioritized list of fonts.
-  (set-face-attribute 'default nil :family "JetBrainsMono")
+  (set-face-attribute 'default nil :family "JetBrains Mono")
   (set-face-attribute 'default nil :height (string-to-number (getenv "EMACS_FONT_SIZE")))
 
   ;; jk to change to normal mode
