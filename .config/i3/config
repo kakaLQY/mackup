@@ -112,7 +112,7 @@ bindsym $mod+minus scratchpad show
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "Web"
 set $ws2 "Code"
-set $ws3 "Ref"
+set $ws3 "Term"
 set $ws4 "Temp"
 set $ws5 "5"
 set $ws6 "6"
