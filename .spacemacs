@@ -216,7 +216,7 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 1.0)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -345,7 +345,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil unicode symbols are displayed in the mode line.
    ;; If you use Emacs as a daemon and wants unicode characters only in GUI set
    ;; the value to quoted `display-graphic-p'. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
 
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
@@ -487,6 +487,14 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  ;; Disable not used modes
+  (setq-default mouse-wheel-mode nil
+                xterm-mouse-mode nil)
+
+  (spaceline-toggle-minor-modes-off)
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-hud-off)
+
   (use-package direnv
     :demand t
     :config
@@ -529,7 +537,7 @@ before packages are loaded."
           (counsel-search . 2)
           (t . 3)))
 
-  ;; Swith SPC and TAB to use double SPC to switch to last buffer.
+  ;; Switch SPC and TAB to use double SPC to switch to last buffer.
   (evil-leader/set-key "SPC" 'evil-switch-to-windows-last-buffer)
   (evil-leader/set-key "TAB" 'counsel-M-x)
 
