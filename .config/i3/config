@@ -110,10 +110,10 @@ bindsym $mod+minus scratchpad show
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "Web"
-set $ws2 "Code"
-set $ws3 "Term"
-set $ws4 "Temp"
+set $ws1 "1:Web"
+set $ws2 "2:Code"
+set $ws3 "3:Term"
+set $ws4 "4:Temp"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
@@ -188,8 +188,8 @@ bar {
 
 # Keybindings =========================================
 bindsym XF86AudioMute exec "pactl set-sink-mute 0 toggle"
-bindsym XF86AudioRaiseVolume exec "pactl set-sink-volume 0 +3%"
-bindsym XF86AudioLowerVolume exec "pactl set-sink-volume 0 -3%"
+bindsym XF86AudioRaiseVolume exec "amixer set Master 3%+"
+bindsym XF86AudioLowerVolume exec "amixer set Master 3%-"
 bindsym XF86MonBrightnessUp exec "light -A 1"
 bindsym XF86MonBrightnessDown exec "light -U 1"
 # =====================================================
@@ -205,4 +205,5 @@ bindsym XF86MonBrightnessDown exec "light -U 1"
 #######################################################################
 # exec i3-config-wizard
 
+exec --no-startup-id xset r rate 200 33
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
