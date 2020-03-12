@@ -41,7 +41,11 @@ This function should only modify configuration layer settings."
 
      ;; Languages
      clojure
-     javascript
+     (javascript :variables
+                 javascript-backend 'lsp
+                 js-indent-level 2
+                 js2-mode-show-strict-warnings nil
+                 js2-mode-show-parse-errors nil)
      python
      rust
      sql
@@ -62,6 +66,7 @@ This function should only modify configuration layer settings."
      org
      (shell :variables
             shell-default-shell 'eshell
+            shell-enable-smart-eshell t
             shell-default-height 30
             shell-default-position 'bottom)
      spell-checking
@@ -227,7 +232,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
    ;; (default "SPC")
-   dotspacemacs-emacs-command-key "SPC"
+   dotspacemacs-emacs-command-key ":"
 
    ;; The key used for Vim Ex commands (default ":")
    dotspacemacs-ex-command-key ":"
@@ -537,9 +542,12 @@ before packages are loaded."
           (counsel-search . 2)
           (t . 3)))
 
+  ;; (define-key company-active-map (kbd "C-i") 'counsel-company)
+  (global-set-key (kbd "C-'") 'counsel-company)
+
   ;; Switch SPC and TAB to use double SPC to switch to last buffer.
   (evil-leader/set-key "SPC" 'evil-switch-to-windows-last-buffer)
-  (evil-leader/set-key "TAB" 'counsel-M-x)
+  ;; (evil-leader/set-key "TAB" 'counsel-M-x)
 
   ;; Clojure
   (setq clojure-indent-style 'align-arguments)
