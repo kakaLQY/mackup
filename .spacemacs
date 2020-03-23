@@ -46,10 +46,15 @@ This function should only modify configuration layer settings."
                  js-indent-level 2
                  js2-mode-show-strict-warnings nil
                  js2-mode-show-parse-errors nil)
-     python
+     (typescript :variables
+                 typescript-backend 'lsp)
+     (python :variables
+             python-backend 'lsp
+             python-lsp-server 'pyls)
      rust
      sql
      yaml
+     html
      shell-scripts
      nixos
 
@@ -511,6 +516,9 @@ before packages are loaded."
   ;; Default font or prioritized list of fonts.
   (set-face-attribute 'default nil :family "JetBrains Mono")
   (set-face-attribute 'default nil :height (string-to-number (getenv "EMACS_FONT_SIZE")))
+
+  ;; eshell
+  (setq eshell-buffer-maximum-lines 50000)
 
   ;; jk to change to normal mode
   (require 'key-chord)
