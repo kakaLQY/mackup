@@ -28,7 +28,7 @@ secondary = #e60053
 alert = #bd2c40
 
 [bar/main]
-monitor = ${env:MONITOR:HDMI-1}
+monitor = ${env:MONITOR:DP-1}
 width = 100%
 height = 30
 ;offset-x = 1%
@@ -58,7 +58,7 @@ font-2 = siji:pixelsize=10;1
 
 modules-left = date i3
 modules-center = xwindow
-modules-right = filesystem pulseaudio memory cpu openvpn wlan eth battery temperature systemmenu
+modules-right = filesystem pulseaudio memory cpu openvpn wlan eth0 eth1 battery temperature systemmenu
 
 tray-position = right
 tray-padding = 2
@@ -244,13 +244,29 @@ format-disconnected = <label-disconnected>
 label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-[module/eth]
+[module/eth0]
+type = internal/network
+interface = enp5s0
+interval = 3.0
+
+format-connected-underline = #55aa55
+format-connected-prefix = "Upper "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/eth1]
 type = internal/network
 interface = enp0s31f6
 interval = 3.0
 
 format-connected-underline = #55aa55
-format-connected-prefix = " "
+format-connected-prefix = "Lower "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
