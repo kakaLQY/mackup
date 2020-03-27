@@ -45,7 +45,9 @@ bindsym $mod+Return exec termite
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec rofi -show run
+# bindsym $mod+space exec rofi -show run
+bindsym $mod+space exec termite --name=launcher -e "bash -c 'compgen -c | grep -v fzf | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec'"
+for_window [app_id="^launcher$"] floating enable, border none, opacity 0.8
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -183,7 +185,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    mode invisible
+    swaybar_command waybar
 }
 
 # Keybindings =========================================
@@ -205,10 +207,12 @@ bindsym XF86MonBrightnessDown exec "light -U 1"
 #######################################################################
 # exec i3-config-wizard
 
+input 65261:24672:dztech_67MLStandard xkb_layout us
+input 65261:24672:dztech_67MLStandard xkb_options ctrl:swap_lwin_lctl
+input 65261:24672:dztech_67MLStandard repeat_delay 200
+input 65261:24672:dztech_67MLStandard repeat_rate 33
+
 output DP-1 pos 0 0 res 2560x2880
 output DP-3 pos 2560 0 res 2560x2880
 
-exec --no-startup-id xset r rate 200 33
-exec --no-startup-id xsetroot -bg black
-
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec waybar
