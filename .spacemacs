@@ -41,6 +41,7 @@ This function should only modify configuration layer settings."
 
      ;; Languages
      clojure
+     docker
      (javascript :variables
                  javascript-backend 'lsp
                  js-indent-level 2
