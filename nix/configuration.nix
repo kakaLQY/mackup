@@ -24,7 +24,7 @@
 
     overlays = [
       (import (builtins.fetchTarball {
-        url = https://github.com/nix-community/emacs-overlay/archive/36b9ad1dbaaa79e0f6d74247b43e906e150b6d75.tar.gz;
+        url = https://github.com/nix-community/emacs-overlay/archive/dd46e13b1405c982fac53c580724908f9e2abb07.tar.gz;
       }))
     ];
   };
@@ -38,6 +38,12 @@
   ;
   nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
+  # networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
   networking = {
     hostName = "nixos"; # Define your hostname.
     wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -56,9 +62,7 @@
     };
 
     interfaces = {
-      enp0s31f6.useDHCP = true;
-      enp5s0.useDHCP = true;
-      wlp6s0.ipv4.addresses = [
+      wlp7s0.ipv4.addresses = [
         {
           address = "192.168.1.150";
           prefixLength = 24;
@@ -67,15 +71,10 @@
     };
   };
 
-  # Configure network proxy if necessary
 
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    inputMethod = {
-      enabled = "fcitx";
-      fcitx.engines = with pkgs.fcitx-engines; [cloudpinyin];
-    };
   };
 
   console = {
@@ -84,34 +83,37 @@
   };
 
   # Set your time zone.
-  time = {
-    timeZone = "Asia/Hong_Kong";
-  };
+  time.timeZone = "Asia/Hong_Kong";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      alacritty awscli bash byobu clojure direnv docker-compose docker-credential-helpers
-      ec2_api_tools emacsGit exa fzf git gnumake
-      ispell jq leiningen libsecret neovim
-      nodejs-10_x nodePackages_10_x.npm nodePackages_10_x.serverless
-      overmind pinentry-gnome polybarFull pstree ripgrep rxvt-unicode termite thunderbird tmux
-      unzip vivaldi wget yarn yq zip
+      awscli bash clojure direnv docker-compose docker-credential-helpers
+      ec2_api_tools emacsGit exa fzf glibc git gnumake
+      ispell jdk11 jq leiningen libsecret lsof neovim
+      nodejs-10_x nodePackages_10_x.npm nodePackages_10_x.serverless nodePackages_10_x.javascript-typescript-langserver
+      overmind pinentry-gnome polybarFull pstree ripgrep slack termite tmux
+      unzip vivaldi xclip wget yarn yq zip
       (python37.withPackages(ps: with ps; [
         python-language-server boto3 virtualenv
       ]))
     ];
     variables = {
-      EDITOR = "urxvt";
+      EDITOR = "termite";
     };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  #   pinentryFlavor = "gnome3";
+  # };
+
   programs = {
-    gnupg.agent = { enable = true; enableSSHSupport = true; };
     fish.enable = true;
     sway = {
       enable = true;
@@ -119,7 +121,7 @@
         swaylock # lockscreen
         swayidle
         xwayland # for legacy apps
-  waybar
+        waybar
       ];
     };
     seahorse.enable = true;
@@ -132,6 +134,7 @@
   services.gnome3 = {
     gnome-keyring.enable = true;
   };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -154,35 +157,7 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-
-    displayManager = {
-      lightdm = {
-        enable = true;
-      };
-      defaultSession = "none+i3";
-    };
-
-    desktopManager = {
-      xterm.enable = false;
-      #gnome3.enable = false;
-    };
-
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [
-        rofi
-        i3lock
-      ];
-    };
-
-    layout = "us";
-    xkbOptions = "ctrl:swap_lwin_lctl";
-
-    videoDrivers = [ "amdgpu" ];
-  };
-
+  # services.xserver.enable = true;
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
@@ -192,8 +167,39 @@
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
-  # services.xserver.desktopManager.xfce.enable = true;
-  # services.xserver.windowManager.xmonad.enable = true;
+  services.xserver = {
+    enable = true;
+
+    displayManager = {
+      lightdm = {
+        enable = true;
+	autoLogin = {
+	  enable = true;
+	  user = "kaka";
+	};
+      };
+      defaultSession = "none+i3";
+    };
+
+    desktopManager = {
+      xterm.enable = false;
+    };
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        rofi
+	i3lock
+	i3blocks
+	i3status
+      ];
+    };
+
+    layout = "us";
+    xkbOptions = "ctrl:swap_lwin_lctl";
+
+    videoDrivers = [ "nvidia" ];
+  };
 
   virtualisation = {
     docker.enable = true;
@@ -214,19 +220,17 @@
   };
 
   fonts.fonts = with pkgs; [
-    source-han-sans-simplified-chinese source-han-serif-simplified-chinese
-    unifont
     font-awesome
     jetbrains-mono
   ];
 
-  #security = {
-  #  pam.services.lightdm.enable = true;
-  #};
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "20.03"; # Did you read the comment?
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
 }
+
