@@ -52,7 +52,8 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-lsp-server 'pyls)
-     rust
+     (rust :variables rust-backend 'lsp
+           :variables lsp-rust-server 'rust-analyzer)
      sql
      yaml
      html
