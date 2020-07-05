@@ -206,6 +206,8 @@ bindsym XF86MonBrightnessDown exec "light -U 1"
 # exec i3-config-wizard
 
 exec --no-startup-id xset r rate 200 33
+exec --no-startup-id xset dpms 0 1800 2400
+exec --no-startup-id xset s off
 exec --no-startup-id xsetroot -bg black
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh

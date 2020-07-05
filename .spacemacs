@@ -32,7 +32,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(csv
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -560,7 +560,7 @@ before packages are loaded."
   ;; (evil-leader/set-key "TAB" 'counsel-M-x)
 
   ;; Clojure
-  (setq clojure-indent-style 'align-arguments)
+  (setq clojure-indent-style 'always-indent)
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
