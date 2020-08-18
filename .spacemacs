@@ -564,6 +564,8 @@ before packages are loaded."
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "ff" 'clojure-align)
+
   (let ((clojure-mode-config '(lambda ()
                                 (paredit-mode 1)
                                 (smartparens-mode -1)

@@ -1,4 +1,4 @@
-# Git 
+# Git
 alias gc "git clone"
 alias gf "git fetch"
 alias gp "git pull --rebase"
@@ -16,3 +16,6 @@ alias vi "nvim"
 
 # Emacs
 alias e "emacs"
+
+# Babashka
+alias bbc "bb -m cmd"
