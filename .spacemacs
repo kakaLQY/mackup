@@ -560,14 +560,23 @@ before packages are loaded."
   ;; (evil-leader/set-key "TAB" 'counsel-M-x)
 
   ;; Clojure
-  (setq clojure-indent-style 'always-indent)
+  (setq clojure-indent-style 'align-arguments)
+  (setq clojure-align-forms-automatically 1)
+
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
-  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "ff" 'clojure-align)
+  (defun spacemacs/cider-send-sexp-at-point-to-repl ()
+    "Send sexp at point to REPL and evaluate it without changing the focus."
+    (interactive)
+    (spacemacs//cider-eval-in-repl-no-focus (cider-sexp-at-point)))
+
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "ss"
+    'spacemacs/cider-send-sexp-at-point-to-repl)
 
   (let ((clojure-mode-config '(lambda ()
                                 (paredit-mode 1)
+                                (aggressive-indent-mode 0)
                                 (smartparens-mode -1)
                                 (auto-compression-mode -1)
                                 (auto-encryption-mode -1))
