@@ -110,11 +110,11 @@ bindsym $mod+minus scratchpad show
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:Web"
-set $ws2 "2:Code"
-set $ws3 "3:Term"
-set $ws4 "4:Temp"
-set $ws5 "5"
+set $ws1 "1:Code"
+set $ws2 "2:Web KK"
+set $ws3 "3:Web gini"
+set $ws4 "4:Term"
+set $ws5 "5:Temp"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
@@ -211,3 +211,13 @@ exec --no-startup-id xset s off
 exec --no-startup-id xsetroot -bg black
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
+# Set multiple monitor control
+exec --no-startup-id xrandr --output DP-1 --primary
+exec --no-startup-id xrandr --output DP-2 --rotate left
+
+workspace 1 output primary
+workspace 2 output DP-2
+workspace 3 output DP-2
+workspace 4 output DP-2
+workspace 5 output primary
