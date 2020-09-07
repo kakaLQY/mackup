@@ -79,7 +79,8 @@ This function should only modify configuration layer settings."
      spell-checking
      syntax-checking
      (treemacs :variables
-               treemacs-sorting 'alphabetic-desc)
+               treemacs-sorting 'alphabetic-desc
+               treemacs-wrap-around nil)
      ;; version-control
      )
 
@@ -571,7 +572,11 @@ before packages are loaded."
     (interactive)
     (spacemacs//cider-eval-in-repl-no-focus (cider-sexp-at-point)))
 
-  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "ss"
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "a"
+    'spacemacs/cider-send-sexp-at-point-to-repl)
+  (spacemacs/set-leader-keys-for-major-mode 'clojurec-mode "a"
+    'spacemacs/cider-send-sexp-at-point-to-repl)
+  (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "a"
     'spacemacs/cider-send-sexp-at-point-to-repl)
 
   (let ((clojure-mode-config '(lambda ()
