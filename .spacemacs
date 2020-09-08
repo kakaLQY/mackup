@@ -40,7 +40,8 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
 
      ;; Languages
-     clojure
+     (clojure :variables
+              clojure-toplevel-inside-comment-form t)
      docker
      (javascript :variables
                  javascript-backend 'lsp
