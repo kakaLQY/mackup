@@ -533,7 +533,7 @@ before packages are loaded."
   (add-hook 'prog-mode-hook
             (lambda ()
               (rainbow-delimiters-mode -1)
-              (setq fill-column 100)
+              (display-fill-column-indicator-mode t)
               )
             t)
 
@@ -586,8 +586,7 @@ before packages are loaded."
                                 (smartparens-mode -1)
                                 (auto-compression-mode -1)
                                 (auto-encryption-mode -1))
-                             )
-        )
+                             ))
     (add-hook 'clojurec-mode-hook clojure-mode-config t)
     (add-hook 'clojurescript-mode-hook clojure-mode-config t)
     (add-hook 'clojure-mode-hook clojure-mode-config t)
