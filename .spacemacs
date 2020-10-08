@@ -574,12 +574,31 @@ before packages are loaded."
     (interactive)
     (spacemacs//cider-eval-in-repl-no-focus (cider-sexp-at-point)))
 
+  (defun spacemacs/cider-test-reload-run-one ()
+    "Run test around point."
+    (interactive)
+    (cider-ns-refresh)
+    (cider-load-buffer)
+    (cider-test-run-test))
+
+  (defun spacemacs/cider-test-reload-run-ns ()
+    "Run namespace test."
+    (interactive)
+    (cider-ns-refresh)
+    (cider-load-buffer)
+    (call-interactively #'cider-test-run-ns-tests))
+
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "a"
     'spacemacs/cider-send-sexp-at-point-to-repl)
   (spacemacs/set-leader-keys-for-major-mode 'clojurec-mode "a"
     'spacemacs/cider-send-sexp-at-point-to-repl)
   (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "a"
     'spacemacs/cider-send-sexp-at-point-to-repl)
+
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "n"
+    'spacemacs/cider-test-reload-run-ns)
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "o"
+    'spacemacs/cider-test-reload-run-one)
 
   (let ((clojure-mode-config '(lambda ()
                                 (paredit-mode 1)
