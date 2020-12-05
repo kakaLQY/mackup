@@ -2,7 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, options, ... }:
+{ callPackage, config, pkgs, options, ... }:
+
+let
+  babashka = pkgs.callPackage ./babashka.nix {};
+in
 
 {
   imports =
@@ -11,22 +15,19 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    timeout = 2;
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    kernelPackages = pkgs.linuxPackages_5_9;
+    loader = {
+      timeout = 2;
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   nixpkgs = {
     config = {
       allowUnfree = true;
     };
-
-    overlays = [
-      (import (builtins.fetchTarball {
-        url = https://github.com/nix-community/emacs-overlay/archive/dd46e13b1405c982fac53c580724908f9e2abb07.tar.gz;
-      }))
-    ];
   };
 
   # Without any `nix.nixPath` entry:
@@ -36,8 +37,8 @@
     # Append our nixpkgs-overlays.
     [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
   ;
-  nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
+  nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -53,28 +54,37 @@
     # replicates the default behaviour.
     useDHCP = false;
     enableIPv6 = false;
-    defaultGateway = "192.168.1.1";
+    defaultGateway = "10.0.0.2";
     nameservers = ["8.8.8.8" "114.114.114.114"];
 
     proxy = {
-      default = "http://100.100.100.200:1081";
-      noProxy = "127.0.0.1,192.168.1.1/24,100.100.100.251,localhost,internal.domain,.cn";
+      default = "http://10.0.0.200:1081";
+      noProxy = "127.0.0.1,192.168.1.1/24,10.0.0.1/24,localhost,internal.domain,.cn";
     };
 
     interfaces = {
-      wlp7s0.ipv4.addresses = [
+    # enp5s0.ipv4.addresses = [
+    #   {
+    #     address = "192.168.3.150";
+    #     prefixLength = 24;
+    #   }
+    # ];
+      wlp4s0.ipv4.addresses = [
         {
-          address = "192.168.1.150";
+          address = "10.0.0.150";
           prefixLength = 24;
         }
       ];
     };
   };
 
-
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
+    inputMethod = {
+      enabled = "ibus";
+      ibus.engines = with pkgs.ibus-engines; [ libpinyin uniemoji ];
+    };
   };
 
   console = {
@@ -89,15 +99,19 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      awscli bash clojure direnv docker-compose docker-credential-helpers
-      ec2_api_tools emacsGit exa fzf glibc git gnumake
-      ispell jdk11 jq leiningen libsecret lsof neovim
-      nodejs-10_x nodePackages_10_x.npm nodePackages_10_x.serverless nodePackages_10_x.javascript-typescript-langserver
-      overmind pinentry-gnome polybarFull pstree ripgrep slack termite tmux
-      unzip vivaldi xclip wget yarn yq zip
-      (python37.withPackages(ps: with ps; [
+      babashka
+      awscli2 bash bat bpytop cacert clojure direnv docker-compose docker-credential-helpers
+      ec2_api_tools emacs27 exa fzf glibc git gnome3.adwaita-icon-theme gnumake
+      ispell jq leiningen libsecret lsof lshw mitmproxy neovim
+      jdk11
+      nodejs-12_x nodePackages.npm nodePackages.serverless nodePackages.javascript-typescript-langserver
+      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep rustup slack termite tmux
+      unzip vivaldi xclip wget yarn yq zip zoom-us
+      jetbrains.idea-community
+      (python38.withPackages(ps: with ps; [
         python-language-server boto3 virtualenv
       ]))
+      nushell
     ];
     variables = {
       EDITOR = "termite";
@@ -115,8 +129,9 @@
 
   programs = {
     fish.enable = true;
+    ssh.startAgent = true;
     sway = {
-      enable = true;
+      enable = false;
       extraPackages = with pkgs; [
         swaylock # lockscreen
         swayidle
@@ -126,8 +141,8 @@
     };
     seahorse.enable = true;
   };
-  # List services that you want to enable:
 
+  # List services that you want to enable:
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
@@ -135,11 +150,14 @@
     gnome-keyring.enable = true;
   };
 
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -154,29 +172,24 @@
       enable = true;
       support32Bit = true;
     };
+
+  # nvidia.prime = {
+  #   sync.enable = true;
+  # };
   };
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver = {
     enable = true;
 
+    dpi = 218;
     displayManager = {
+      autoLogin = {
+        enable = true;
+        user = "kaka";
+      };
       lightdm = {
         enable = true;
-	autoLogin = {
-	  enable = true;
-	  user = "kaka";
-	};
       };
       defaultSession = "none+i3";
     };
@@ -198,19 +211,28 @@
     layout = "us";
     xkbOptions = "ctrl:swap_lwin_lctl";
 
-    videoDrivers = [ "nvidia" ];
+    videoDrivers = [ "amdgpu" ];
   };
 
   virtualisation = {
     docker.enable = true;
-    virtualbox = {
-      host = {
-        enable = true;
+  # virtualbox = {
+  #   host = {
+  #     enable = true;
   #     enableExtensionPack = true;
-      };
-      guest.enable = true;
-    };
+  #   };
+  #   guest.enable = false;
+  # };
   };
+
+  # services.xserver.xkbOptions = "eurosign:e";
+
+  # Enable touchpad support.
+  # services.xserver.libinput.enable = true;
+
+  # Enable the KDE Desktop Environment.
+  # services.xserver.displayManager.sddm.enable = true;
+  # services.xserver.desktopManager.plasma5.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kaka = {
@@ -231,6 +253,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.03"; # Did you read the comment?
-
 }
 

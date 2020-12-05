@@ -209,6 +209,7 @@ exec --no-startup-id xset r rate 200 33
 exec --no-startup-id xset dpms 300 600 900
 exec --no-startup-id xset s off
 exec --no-startup-id xsetroot -bg black
+exec --no-startup-id ibus-daemon -d
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 

@@ -81,7 +81,7 @@ This function should only modify configuration layer settings."
      spell-checking
      syntax-checking
      (treemacs :variables
-               treemacs-sorting 'alphabetic-desc
+               treemacs-sorting 'alphabetic-case-insensitive-asc
                treemacs-wrap-around nil)
      ;; version-control
      )
