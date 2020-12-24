@@ -41,7 +41,8 @@ This function should only modify configuration layer settings."
 
      ;; Languages
      (clojure :variables
-              clojure-toplevel-inside-comment-form t)
+              clojure-toplevel-inside-comment-form t
+              clojure-backend 'cider)
      docker
      (javascript :variables
                  javascript-backend 'lsp
@@ -72,7 +73,12 @@ This function should only modify configuration layer settings."
      lsp
      markdown
      multiple-cursors
-     org
+     (org :variables
+          org-enable-org-journal-support t
+          org-journal-dir "~/OneDrive/Org/journal/"
+          org-journal-file-format "%Y-%m"
+          org-journal-date-format "%A, %Y-%m-%d"
+          org-journal-file-type 'monthly)
      (shell :variables
             shell-default-shell 'eshell
             shell-enable-smart-eshell t
