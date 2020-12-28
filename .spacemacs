@@ -55,8 +55,9 @@ This function should only modify configuration layer settings."
      (python :variables
              python-backend 'lsp
              python-lsp-server 'pyls)
-     (rust :variables rust-backend 'lsp
-           :variables lsp-rust-server 'rust-analyzer)
+     (rust :variables
+           rust-backend 'lsp
+           lsp-rust-server 'rust-analyzer)
      sql
      yaml
      html
@@ -76,8 +77,8 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-org-journal-support t
           org-journal-dir "~/OneDrive/Org/journal/"
-          org-journal-file-format "%Y-%m"
-          org-journal-date-format "%A, %Y-%m-%d"
+          org-journal-file-format "%Y-%m.org"
+          org-journal-date-format "%Y-%m-%d, %A"
           org-journal-file-type 'monthly)
      (shell :variables
             shell-default-shell 'eshell
@@ -527,6 +528,9 @@ before packages are loaded."
   ;; Default font or prioritized list of fonts.
   (set-face-attribute 'default nil :family "JetBrains Mono")
   (set-face-attribute 'default nil :height (string-to-number (getenv "EMACS_FONT_SIZE")))
+
+  ;; lsp
+  (setq lsp-enable-file-watchers nil)
 
   ;; eshell
   (setq eshell-buffer-maximum-lines 50000)
