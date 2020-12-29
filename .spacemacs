@@ -77,7 +77,7 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-org-journal-support t
           org-journal-dir "~/OneDrive/Org/journal/"
-          org-journal-file-format "%Y-%m.org"
+          org-journal-file-format "%Y-%m"
           org-journal-date-format "%Y-%m-%d, %A"
           org-journal-file-type 'monthly)
      (shell :variables
