@@ -573,16 +573,12 @@ before packages are loaded."
   ;; (evil-leader/set-key "TAB" 'counsel-M-x)
 
   ;; Clojure
+  (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-clojure-mode)
   (setq clojure-indent-style 'align-arguments)
   (setq clojure-align-forms-automatically 1)
 
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
-
-  (defun backward-transpose-sexp ()
-    "Backward sp-transpose-sexp."
-    (interactive)
-    (sp-transpose-sexp -1))
 
   (defun spacemacs/cider-send-sexp-at-point-to-repl ()
     "Send sexp at point to REPL and evaluate it without changing the focus."
