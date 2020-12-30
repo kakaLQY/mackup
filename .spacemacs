@@ -579,6 +579,11 @@ before packages are loaded."
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
+  (defun sp-backward-transpose-sexp ()
+    "Backward sp-transpose-sexp."
+    (interactive)
+    (sp-transpose-sexp -1))
+
   (defun spacemacs/cider-send-sexp-at-point-to-repl ()
     "Send sexp at point to REPL and evaluate it without changing the focus."
     (interactive)
