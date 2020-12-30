@@ -579,7 +579,7 @@ before packages are loaded."
   (add-hook 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 
-  (defun sp-backward-transpose-sexp ()
+  (defun backward-transpose-sexp ()
     "Backward sp-transpose-sexp."
     (interactive)
     (sp-transpose-sexp -1))
