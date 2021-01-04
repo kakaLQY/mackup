@@ -75,6 +75,7 @@ This function should only modify configuration layer settings."
      markdown
      multiple-cursors
      (org :variables
+          org-default-notes-file "~/OneDrive/Org/tasks.org"
           org-enable-org-journal-support t
           org-journal-dir "~/OneDrive/Org/journal/"
           org-journal-file-format "%Y-%m"
@@ -563,7 +564,8 @@ before packages are loaded."
         ivy-more-chars-alist
         '((counsel-rg . 1)
           (counsel-search . 2)
-          (t . 3)))
+          (t . 3))
+        ivy-initial-inputs-alist nil)
 
   ;; (define-key company-active-map (kbd "C-i") 'counsel-company)
   (global-set-key (kbd "C-'") 'counsel-company)
