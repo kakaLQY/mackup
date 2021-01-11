@@ -60,7 +60,7 @@
 
 ;; Clojure
 (after! cider
-        (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 80))
+  (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 100))
 
 (setq clojure-indent-style 'align-arguments)
 (setq clojure-toplevel-inside-comment-form t)
@@ -96,6 +96,19 @@
 (add-hook! 'clojure-mode-hook #'paredit-mode)
 (add-hook! 'clojurec-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
+
+;; Magit
+(after! magit
+  (set-popup-rule! "^\\(?:\\*magit\\|magit:\\| \\*transient\\*\\)"
+    :side 'right :size 0.5))
+
+;; Org
+(setq org-default-notes-file "~/OneDrive/Org/tasks.org")
+(setq org-enable-org-journal-support t)
+(setq org-journal-dir "~/OneDrive/Org/journal/")
+(setq org-journal-file-format "%Y-%m")
+(setq org-journal-date-format "%Y-%m-%d, %A")
+(setq org-journal-file-type 'monthly)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
