@@ -58,6 +58,11 @@
       "8" 'winum-select-window-8
       "9" 'winum-select-window-9)
 
+;; Treemacs
+(after! treemacs
+  :config
+  (setq treemacs-collapse-dirs 5))
+
 ;; Clojure
 (use-package! lispy
   :config
