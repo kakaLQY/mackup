@@ -59,6 +59,13 @@
       "9" 'winum-select-window-9)
 
 ;; Clojure
+(use-package! lispy
+  :config
+  (setq lispy-backward nil)
+  (map! "M-[" #'lispy-wrap-brackets)
+  (map! "M-{" #'lispy-wrap-braces)
+  (map! "M-(" #'lispy-wrap-round))
+
 (after! cider
   (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 100))
 
