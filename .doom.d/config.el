@@ -42,6 +42,9 @@
       ;; "TAB" nil
       "SPC" 'evil-switch-to-windows-last-buffer)
 
+;; Auto save
+(add-hook! 'focus-out-hook (save-some-buffers t))
+
 ;; window key mapping
 (winum-mode)
 (map! (:leader
