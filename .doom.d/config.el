@@ -74,8 +74,11 @@
 (after! cider
   (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 100))
 
-(setq clojure-indent-style 'align-arguments)
-(setq clojure-toplevel-inside-comment-form t)
+(after! clojure-mode
+  :config
+  (setq clojure-indent-style 'align-arguments)
+  (setq clojure-toplevel-inside-comment-form t)
+  (setq clojure-align-forms-automatically t))
 
 (defun spacemacs//cider-eval-in-repl-no-focus (form)
   "Insert FORM in the REPL buffer and eval it."
