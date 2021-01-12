@@ -65,7 +65,9 @@
 ;; Treemacs
 (after! treemacs
   :config
-  (setq treemacs-collapse-dirs 5))
+  (setq treemacs-collapse-dirs 5)
+  ;; (treemacs-follow-mode 1)
+  (treemacs-tag-follow-mode 1))
 
 ;; Clojure
 (use-package! lispy
