@@ -33,6 +33,7 @@
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'nil)
+(global-visual-line-mode 1)
 
 ;; key bindings
 (setq evil-snipe-override-evil-repeat-keys nil)
