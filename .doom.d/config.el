@@ -69,6 +69,10 @@
   ;; (treemacs-follow-mode 1)
   (treemacs-tag-follow-mode 1))
 
+(after! lsp
+  :config
+  (setq lsp-enable-file-watchers nil))
+
 ;; Clojure
 (use-package! lispy
   :config
@@ -120,16 +124,27 @@
 
 ;; Magit
 (after! magit
-  (set-popup-rule! "^\\(?:\\*magit\\|magit:\\| \\*transient\\*\\)"
-    :side 'right :size 0.5))
+  :config
+  ;; (setq magit-bury-buffer-function #'magit-restore-window-configuration)
+  ;; (set-popup-rule! "^\\(?:\\*magit\\|magit:\\| \\*transient\\*\\)"
+  ;;   :side 'right :size 0.5)
+  )
 
 ;; Org
-(setq org-default-notes-file "~/OneDrive/Org/tasks.org")
-(setq org-enable-org-journal-support t)
-(setq org-journal-dir "~/OneDrive/Org/journal/")
-(setq org-journal-file-format "%Y-%m")
-(setq org-journal-date-format "%Y-%m-%d, %A")
-(setq org-journal-file-type 'monthly)
+(after! org
+  :config
+  (setq org-brain-path "~/OneDrive/Org/brain/")
+  (setq org-directory "~/OneDrive/Org/")
+  (setq org-default-notes-file "~/OneDrive/Org/tasks.org")
+  (setq org-enable-org-journal-support t)
+  (setq org-journal-dir "~/OneDrive/Org/journal/")
+  (setq org-journal-file-format "%Y-%m")
+  (setq org-journal-date-format "%Y-%m-%d, %A")
+  (setq org-journal-file-type 'monthly))
+
+(use-package! org-roam
+  :config
+  (setq org-roam-directory "~/OneDrive/Org/roam/"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
