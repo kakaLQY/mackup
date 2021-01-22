@@ -73,6 +73,9 @@
   :config
   (setq lsp-enable-file-watchers nil))
 
+;; spell
+(setq ispell-dictionary "en")
+
 ;; Clojure
 (use-package! lispy
   :config
