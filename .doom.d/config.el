@@ -80,12 +80,12 @@
 (use-package! lispy
   :config
   (setq lispy-backward nil)
-  (map! "M-[" #'lispy-wrap-brackets)
+  (map! "M-]" #'lispy-wrap-brackets)
   (map! "M-{" #'lispy-wrap-braces)
   (map! "M-(" #'lispy-wrap-round))
 
 (after! cider
-  (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 100))
+  (set-popup-rule! "^\\*cider-repl" :side 'right :quit nil :size 120))
 
 (after! clojure-mode
   :config
@@ -124,6 +124,11 @@
 (add-hook! 'clojure-mode-hook #'paredit-mode)
 (add-hook! 'clojurec-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
+
+;; Javascript
+(after! js2-mode-hook
+  :config
+  (setq js2-basic-offset 2))
 
 ;; Magit
 (after! magit
