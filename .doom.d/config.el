@@ -31,6 +31,25 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/OneDrive/Org")
+(setq org-brain-path (concat org-directory "/brain/"))
+
+(setq org-agenda-files (directory-files-recursively (concat org-directory "/tasks/") "\\.org$"))
+;; This is to include org capture todo
+(push (concat org-directory "/todo.org") org-agenda-files)
+;; archive in monthly file
+(setq org-archive-location (concat org-directory "/archive/"
+                                (format-time-string "%Y-%m" (current-time))
+                                ".org_archive::"))
+
+(setq org-enable-org-journal-support t)
+(setq org-journal-dir (concat org-directory "/journal/"))
+(setq org-journal-file-format "%Y-%m")
+(setq org-journal-date-format "%Y-%m-%d, %A")
+(setq org-journal-file-type 'monthly)
+
+(use-package! org-roam
+  :config
+  (setq org-roam-directory (concat org-directory "/roam/")))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -139,22 +158,6 @@
   ;; (set-popup-rule! "^\\(?:\\*magit\\|magit:\\| \\*transient\\*\\)"
   ;;   :side 'right :size 0.5)
   )
-
-;; Org
-(after! org
-  :config
-  (setq org-brain-path "~/OneDrive/Org/brain/")
-  (setq org-directory "~/OneDrive/Org/")
-  (setq org-default-notes-file "~/OneDrive/Org/tasks.org")
-  (setq org-enable-org-journal-support t)
-  (setq org-journal-dir "~/OneDrive/Org/journal/")
-  (setq org-journal-file-format "%Y-%m")
-  (setq org-journal-date-format "%Y-%m-%d, %A")
-  (setq org-journal-file-type 'monthly))
-
-(use-package! org-roam
-  :config
-  (setq org-roam-directory "~/OneDrive/Org/roam/"))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
