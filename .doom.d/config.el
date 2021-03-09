@@ -9,6 +9,8 @@
 (setq user-full-name "Kaka LI"
       user-mail-address "drkaka@drkaka.com")
 
+(setq-default fill-column 100)
+
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
