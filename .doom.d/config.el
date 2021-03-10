@@ -39,7 +39,7 @@
 ;; archive in monthly file
 (setq org-archive-location (concat org-directory "/archive/"
                                 (format-time-string "%Y-%m" (current-time))
-                                ".org_archive::"))
+                                "-%s_archive::"))
 
 (setq org-enable-org-journal-support t)
 (setq org-journal-dir (concat org-directory "/journal/"))
