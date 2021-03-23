@@ -94,6 +94,9 @@
   :config
   (setq lsp-enable-file-watchers nil))
 
+;; Pass
+(add-to-list 'auto-mode-alist '("\\.gpg\\'" . pass-view-mode))
+
 ;; spell
 (setq ispell-dictionary "en")
 
