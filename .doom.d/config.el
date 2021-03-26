@@ -149,6 +149,8 @@
 (add-hook! 'clojurec-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
 
+(add-to-list 'auto-mode-alist '("\\.bb\\'" . clojure-mode))
+
 ;; Javascript
 (after! js2-mode-hook
   :config
