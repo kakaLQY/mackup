@@ -69,6 +69,11 @@
   (setq org-roam-directory (concat org-directory "/roam/"))
   (setq org-roam-tag-sources '(prop vanilla)))
 
+(after! org
+  (add-to-list 'org-structure-template-alist '("sh" . "src shell"))
+  (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+  (add-to-list 'org-structure-template-alist '("bb" . "src bb")))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'nil)
