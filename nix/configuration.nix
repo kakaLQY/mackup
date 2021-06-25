@@ -4,50 +4,47 @@
 
 { callPackage, config, pkgs, options, ... }:
 
-let
-  babashka = pkgs.callPackage ./babashka.nix {};
-in
+# let
+#   babashka = pkgs.callPackage ./babashka.nix {};
+# in
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_9;
+    kernelPackages = pkgs.linuxPackages_5_12;
     loader = {
-      timeout = 2;
-      systemd-boot.enable = true;
+      timeout = 3;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 58;
+      };
       efi.canTouchEfiVariables = true;
     };
   };
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
+  nixpkgs.config.allowUnfree = true;
 
   # Without any `nix.nixPath` entry:
-  nix.nixPath =
-    # Prepend default nixPath values.
-    options.nix.nixPath.default ++
-    # Append our nixpkgs-overlays.
-    [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
-  ;
+  # nix.nixPath =
+  #   # Prepend default nixPath values.
+  #   options.nix.nixPath.default ++
+  #   # Append our nixpkgs-overlays.
+  #   [ "nixpkgs-overlays=/etc/nixos/overlays-compat/" ]
+  # ;
 
-  nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
-  # networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
   networking = {
     hostName = "nixos"; # Define your hostname.
-    wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+    wireless = {
+      enable = true;  # Enables wireless support via wpa_supplicant.
+      interfaces = ["wlp4s0"];
+    };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -57,10 +54,10 @@ in
     defaultGateway = "10.0.0.2";
     nameservers = ["8.8.8.8" "114.114.114.114"];
 
-    proxy = {
-      default = "http://10.0.0.200:1081";
-      noProxy = "127.0.0.1,192.168.1.1/24,10.0.0.1/24,localhost,internal.domain,.cn";
-    };
+    # proxy = {
+    #   default = "http://10.0.0.200:1081";
+    #   noProxy = "127.0.0.1,192.168.1.1/24,10.0.0.1/24,localhost,internal.domain,.cn";
+    # };
 
     interfaces = {
     # enp5s0.ipv4.addresses = [
@@ -88,7 +85,7 @@ in
   };
 
   console = {
-    font = "JetBrainsMono";
+    # font = "JetBrainsMono";
     keyMap = "us";
   };
 
@@ -99,19 +96,51 @@ in
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      babashka
-      awscli2 bash bat bpytop cacert clojure direnv docker-compose docker-credential-helpers
-      ec2_api_tools emacs27 exa fzf glibc git gnome3.adwaita-icon-theme gnumake
-      ispell jq leiningen libsecret lsof lshw mitmproxy neovim
-      jdk11
-      nodejs-12_x nodePackages.npm nodePackages.serverless nodePackages.javascript-typescript-langserver
-      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep rustup slack termite tmux
-      unzip vivaldi xclip wget yarn yq zip zoom-us
-      jetbrains.idea-community
+      awscli2 bash bat bitcoind cacert direnv exa fzf glibc
+      git gnumake gnome3.adwaita-icon-theme
+      jq libsecret lsof lshw pandoc mitmproxy
+      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot sqlite tmux
+      tree unzip xclip wget yq zip
+      zoom-us
+
+      # Java & Clojure
+      clojure jdk11 leiningen
+
+      # Editor
+      emacs27 vim neovim
+
+      # Docker
+      docker-compose docker-credential-helpers
+
+      # Javascript
+      nodejs nodePackages.javascript-typescript-langserver
+
+      # Python
       (python38.withPackages(ps: with ps; [
-        python-language-server boto3 virtualenv
+        python-language-server virtualenv
       ]))
-      nushell
+
+      # Term
+      nushell termite
+
+      # browser
+      vivaldi # firefox
+
+      # Rust
+      rustup
+
+      # Dict
+      (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+
+      # Pass
+      (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import]))
+      zbar pwgen
+
+      # IM
+      slack discord
+
+      # Network
+      v2ray
     ];
     variables = {
       EDITOR = "termite";
@@ -121,15 +150,16 @@ in
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  #   pinentryFlavor = "gnome3";
-  # };
 
   programs = {
     fish.enable = true;
+    seahorse.enable = true;
     ssh.startAgent = true;
+    gnupg.agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
+    browserpass.enable = true;
     sway = {
       enable = false;
       extraPackages = with pkgs; [
@@ -139,15 +169,14 @@ in
         waybar
       ];
     };
-    seahorse.enable = true;
   };
 
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  services.gnome3 = {
-    gnome-keyring.enable = true;
+  services = {
+    openssh.enable = true;
+    onedrive.enable = true;
+    gnome.gnome-keyring.enable = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -163,10 +192,7 @@ in
   # services.printing.enable = true;
 
   # Enable sound.
-  sound = {
-    enable = true;
-  };
-
+  sound.enable = true;
   hardware = {
     pulseaudio = {
       enable = true;
@@ -188,9 +214,7 @@ in
         enable = true;
         user = "kaka";
       };
-      lightdm = {
-        enable = true;
-      };
+      lightdm.enable = true;
       defaultSession = "none+i3";
     };
 
@@ -202,9 +226,9 @@ in
       enable = true;
       extraPackages = with pkgs; [
         rofi
-	i3lock
-	i3blocks
-	i3status
+        i3lock
+        i3blocks
+        i3status
       ];
     };
 
@@ -252,6 +276,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 }
 
