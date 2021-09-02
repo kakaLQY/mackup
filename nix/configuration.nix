@@ -15,7 +15,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_12;
+    kernelPackages = pkgs.linuxPackages_5_13;
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -96,7 +96,7 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert direnv exa fzf glibc
+      awscli2 bash bat bitcoind cacert certbot direnv exa fzf glibc
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot sqlite tmux
@@ -233,7 +233,7 @@
     };
 
     layout = "us";
-    xkbOptions = "ctrl:swap_lwin_lctl";
+    xkbOptions = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
 
     videoDrivers = [ "amdgpu" ];
   };
