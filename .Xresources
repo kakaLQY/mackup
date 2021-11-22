@@ -39,6 +39,10 @@ Xcursor.size: 32
 *.color7:     #BFBFBF
 *.color15:    #E6E6E6
 
+!! xTerm
+xterm*faceName: JetBrainsMono
+xterm*faceSize: 9
+
 !! URxvt Appearance
 URxvt.font: xft:JetBrainsMono:size=18
 URxvt.boldFont: xft:JetBrainsMono:size=18

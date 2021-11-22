@@ -15,7 +15,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_13;
+    kernelPackages = pkgs.linuxPackages_5_14;
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -121,7 +121,7 @@
       ]))
 
       # Term
-      nushell termite
+      nushell termite xterm
 
       # browser
       vivaldi # firefox
