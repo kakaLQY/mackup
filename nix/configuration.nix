@@ -112,6 +112,9 @@
       # Docker
       docker-compose docker-credential-helpers
 
+      # Design
+      freecad
+
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
 
