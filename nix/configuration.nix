@@ -15,7 +15,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_14;
+    kernelPackages = pkgs.linuxPackages_5_15;
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -96,7 +96,7 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot direnv exa fzf glibc
+      awscli2 bash bat bitcoind cacert certbot direnv exa etcher fzf glibc
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot sqlite tmux
@@ -119,8 +119,8 @@
       nodejs nodePackages.javascript-typescript-langserver
 
       # Python
-      (python38.withPackages(ps: with ps; [
-        python-language-server virtualenv
+      (python39.withPackages(ps: with ps; [
+        python-lsp-server virtualenv
       ]))
 
       # Term
@@ -279,6 +279,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 }
 
