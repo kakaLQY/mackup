@@ -115,6 +115,9 @@
       # Design
       freecad
 
+      # Email
+      mu isync
+
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
 
@@ -177,6 +180,7 @@
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
   services = {
+    journald.extraConfig = "SystemMaxUse=2G";
     openssh.enable = true;
     onedrive.enable = true;
     gnome.gnome-keyring.enable = true;
