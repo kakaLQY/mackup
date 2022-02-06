@@ -99,54 +99,57 @@
       awscli2 bash bat bitcoind cacert certbot direnv exa etcher fzf glibc
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
-      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot sqlite tmux
+      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wget yq zip
       zoom-us
 
-      # Java & Clojure
-      clojure jdk11 leiningen
-
-      # Editor
-      emacs27 vim neovim
-
-      # Docker
-      docker-compose docker-credential-helpers
+      # Browser
+      vivaldi # firefox
 
       # Design
       freecad
 
+      # Dict
+      (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+
+      # Docker
+      docker-compose docker-credential-helpers
+
+      # Editor
+      emacs27 vim neovim
+
       # Email
       mu isync
 
+      # IM
+      slack discord
+
+      # Java & Clojure
+      clojure jdk11 leiningen
+
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
+
+      # Network
+      v2ray
+
+      # Pass
+      (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import]))
+      zbar pwgen
 
       # Python
       (python39.withPackages(ps: with ps; [
         python-lsp-server virtualenv
       ]))
 
-      # Term
-      nushell termite xterm
-
-      # browser
-      vivaldi # firefox
-
       # Rust
       rustup
 
-      # Dict
-      (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+      # Term
+      nushell termite xterm
 
-      # Pass
-      (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import]))
-      zbar pwgen
-
-      # IM
-      slack discord
-
-      # Network
-      v2ray
+      # Org Roam
+      sqlite
     ];
     variables = {
       EDITOR = "termite";
