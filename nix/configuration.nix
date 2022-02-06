@@ -149,7 +149,7 @@
       nushell termite xterm
 
       # Org Roam
-      sqlite
+      sqlite graphviz
     ];
     variables = {
       EDITOR = "termite";
