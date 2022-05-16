@@ -43,7 +43,7 @@
 
     wireless = {
       enable = true;  # Enables wireless support via wpa_supplicant.
-      interfaces = ["wlp4s0"];
+      interfaces = ["wlp5s0"];
     };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -66,7 +66,7 @@
     #     prefixLength = 24;
     #   }
     # ];
-      wlp4s0.ipv4.addresses = [
+      wlp5s0.ipv4.addresses = [
         {
           address = "10.0.0.150";
           prefixLength = 24;
@@ -96,7 +96,7 @@
   # $ nix search wget
   environment = {
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot direnv exa etcher fzf glibc
+      awscli2 bash bat bitcoind cacert certbot cloc direnv exa etcher fzf glibc
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
