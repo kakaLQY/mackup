@@ -4,13 +4,10 @@
 
 { callPackage, config, lib, pkgs, options, ... }:
 
-# let
-#   babashka = pkgs.callPackage ./babashka.nix {};
-# in
-
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./services/guix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -27,7 +24,9 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-14.2.9"
+  ];
   # Without any `nix.nixPath` entry:
   # nix.nixPath =
   #   # Prepend default nixPath values.
@@ -43,7 +42,7 @@
 
     wireless = {
       enable = true;  # Enables wireless support via wpa_supplicant.
-      interfaces = ["wlp5s0"];
+      interfaces = ["wlp4s0"];
     };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -66,7 +65,7 @@
     #     prefixLength = 24;
     #   }
     # ];
-      wlp5s0.ipv4.addresses = [
+      wlp4s0.ipv4.addresses = [
         {
           address = "10.0.0.150";
           prefixLength = 24;
@@ -95,6 +94,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
+    homeBinInPath = true;
     systemPackages = with pkgs; [
       awscli2 bash bat bitcoind cacert certbot cloc direnv exa etcher fzf glibc
       git gnumake gnome3.adwaita-icon-theme
@@ -102,6 +102,13 @@
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wget yq zip
       zoom-us
+
+      # AppImage
+      (appimage-run.override {
+        extraPkgs = pkgs: [ pkgs.xorg.libxshmfence ];
+      })
+      # Android
+      android-studio
 
       # Browser
       vivaldi # firefox
@@ -137,6 +144,7 @@
       (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import]))
       zbar pwgen
 
+
       # Python
       (python39.withPackages(ps: with ps; [
         python-lsp-server virtualenv
@@ -161,6 +169,7 @@
   # programs.mtr.enable = true;
 
   programs = {
+    adb.enable = true;
     fish.enable = true;
     seahorse.enable = true;
     ssh.startAgent = true;
@@ -187,6 +196,8 @@
     openssh.enable = true;
     onedrive.enable = true;
     gnome.gnome-keyring.enable = true;
+    guix-daemon.enable = true;
+    nscd.enable = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -356,7 +367,7 @@
   users.users.kaka = {
     shell = "/run/current-system/sw/bin/fish";
     isNormalUser = true;
-    extraGroups = [ "wheel" "audio" "light" "docker" "vboxusers"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "adbusers" "audio" "light" "docker" "vboxusers"]; # Enable ‘sudo’ for the user.
   };
 
   fonts.fonts = with pkgs; [
