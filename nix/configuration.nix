@@ -12,7 +12,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_15;
+    kernelPackages = pkgs.linuxPackages_5_18;
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -25,7 +25,7 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
-    "electron-14.2.9"
+    "electron-12.2.3"
   ];
   # Without any `nix.nixPath` entry:
   # nix.nixPath =
@@ -123,7 +123,7 @@
       docker-compose docker-credential-helpers
 
       # Editor
-      emacs27 vim neovim
+      emacs vim neovim
 
       # Email
       mu isync
@@ -198,6 +198,7 @@
     gnome.gnome-keyring.enable = true;
     guix-daemon.enable = true;
     nscd.enable = true;
+    teamviewer.enable = true;
   };
 
   # Enable the OpenSSH daemon.
