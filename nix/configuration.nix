@@ -27,6 +27,14 @@
   nixpkgs.config.permittedInsecurePackages = [
     "electron-12.2.3"
   ];
+
+  nix = {
+    package = pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   # Without any `nix.nixPath` entry:
   # nix.nixPath =
   #   # Prepend default nixPath values.
@@ -96,7 +104,7 @@
   environment = {
     homeBinInPath = true;
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot cloc direnv exa etcher file fzf glibc
+      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa etcher fd file fzf glibc
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
@@ -132,7 +140,7 @@
       slack discord
 
       # Java & Clojure
-      clojure jdk11 leiningen
+      clj-kondo clojure jdk11 leiningen
 
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
