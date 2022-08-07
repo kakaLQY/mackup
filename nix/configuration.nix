@@ -140,7 +140,7 @@
       slack discord
 
       # Java & Clojure
-      clj-kondo clojure jdk11 leiningen
+      clj-kondo clojure clojure-lsp jdk11 leiningen
 
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
