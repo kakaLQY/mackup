@@ -108,7 +108,7 @@
       git gnumake gnome3.adwaita-icon-theme
       jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
-      tree unzip xclip wget yq zip
+      tree unzip xclip wally-cli wget yq zip
       zoom-us
 
       # AppImage
@@ -228,6 +228,8 @@
       enable = true;
       support32Bit = true;
     };
+
+    keyboard.zsa.enable = true;
 
     # nvidia.prime = {
     #   nvidiaBusId = "PCI:4:0:0";
