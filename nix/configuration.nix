@@ -2,31 +2,29 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ callPackage, config, lib, pkgs, options, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./services/guix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    kernelPackages = pkgs.linuxPackages_5_18;
     loader = {
       timeout = 3;
       systemd-boot = {
         enable = true;
-        configurationLimit = 58;
+        configurationLimit = 50;
       };
       efi.canTouchEfiVariables = true;
     };
   };
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.permittedInsecurePackages = [
-    "electron-12.2.3"
-  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = ["electron-12.2.3"];
+  };
 
   nix = {
     package = pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
@@ -50,7 +48,7 @@
 
     wireless = {
       enable = true;  # Enables wireless support via wpa_supplicant.
-      interfaces = ["wlp4s0"];
+      interfaces = ["wlan0"];
     };
 
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
@@ -73,9 +71,9 @@
     #     prefixLength = 24;
     #   }
     # ];
-      wlp4s0.ipv4.addresses = [
+      wlan0.ipv4.addresses = [
         {
-          address = "10.0.0.150";
+          address = "10.0.0.170";
           prefixLength = 24;
         }
       ];
@@ -92,7 +90,6 @@
   };
 
   console = {
-    # font = "JetBrainsMono";
     keyMap = "us";
   };
 
@@ -104,12 +101,10 @@
   environment = {
     homeBinInPath = true;
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa etcher fd file fzf glibc
-      git gnumake gnome3.adwaita-icon-theme
-      jq libsecret lsof lshw pandoc mitmproxy
+      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa fd file fzf glibc
+      git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
-      tree unzip xclip wally-cli wget yq zip
-      zoom-us
+      tree unzip xclip wally-cli wget yq zip zoom-us
 
       # AppImage
       (appimage-run.override {
@@ -119,19 +114,20 @@
       android-studio
 
       # Browser
-      vivaldi # firefox
+      vivaldi firefox
 
       # Design
       freecad
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+      hunspell
 
       # Docker
       docker-compose docker-credential-helpers
 
       # Editor
-      emacs vim neovim
+      emacs vim neovim libreoffice-qt
 
       # Email
       mu isync
@@ -149,17 +145,12 @@
       v2ray
 
       # Pass
-      (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import]))
-      zbar pwgen
-
+      (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import])) zbar pwgen
 
       # Python
       (python39.withPackages(ps: with ps; [
         python-lsp-server virtualenv
       ]))
-
-      # Rust
-      rustup
 
       # Term
       nushell termite xterm
@@ -186,25 +177,14 @@
       pinentryFlavor = "gnome3";
     };
     browserpass.enable = true;
-    sway = {
-      enable = false;
-      extraPackages = with pkgs; [
-        swaylock # lockscreen
-        swayidle
-        xwayland # for legacy apps
-        waybar
-      ];
-    };
   };
 
   # List services that you want to enable:
-  # Enable the OpenSSH daemon.
   services = {
-    journald.extraConfig = "SystemMaxUse=2G";
+    journald.extraConfig = "SystemMaxUse=4G";
     openssh.enable = true;
     onedrive.enable = true;
     gnome.gnome-keyring.enable = true;
-    guix-daemon.enable = true;
     nscd.enable = true;
     teamviewer.enable = true;
   };
@@ -221,7 +201,6 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
   sound.enable = true;
   hardware = {
     pulseaudio = {
@@ -273,6 +252,7 @@
     xkbOptions = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
 
     videoDrivers = [ "amdgpu" ];
+    #
     # config = lib.mkForce ''
     #   Section "Files"
 
@@ -392,6 +372,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.11"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
 }
 
