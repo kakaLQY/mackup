@@ -132,11 +132,14 @@
       # Email
       mu isync
 
+      # File manager
+      ranger
+
       # IM
       slack discord
 
       # Java & Clojure
-      clj-kondo clojure clojure-lsp jdk11 leiningen
+      clojure jdk11 leiningen
 
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
