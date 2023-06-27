@@ -101,7 +101,7 @@
   environment = {
     homeBinInPath = true;
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa fd file fzf glibc
+      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa exiftool fd file fzf glibc
       git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wally-cli wget yq zip zoom-us
