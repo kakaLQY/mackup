@@ -1,0 +1,8 @@
+{:deps {aero/aero {:mvn/version "1.1.6"}}
+ :min-bb-version "1.0.169"
+
+ :tasks
+ {q11 ;; https://config.qmk.fm/#/keychron/q11/ansi_encoder/LAYOUT_ansi_91
+  {:task (shell "qmk flash keyboard/q11.json")}
+  }
+ }
