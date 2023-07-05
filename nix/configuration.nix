@@ -190,6 +190,7 @@
     gnome.gnome-keyring.enable = true;
     nscd.enable = true;
     teamviewer.enable = true;
+    udisks2.enable = true;
   };
 
   # Enable the OpenSSH daemon.
