@@ -15,3 +15,8 @@ Library
 
 # Remove .fasd
 .fasd
+
+# Ignore Clojure hidden files
+.direnv/
+.clj-kondo/
+.lsp/
