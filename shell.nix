@@ -6,6 +6,6 @@ with import (builtins.fetchGit {
 
 mkShell {
   buildInputs = [
-    babashka qmk
+    babashka qmk via vial
   ];
 }
