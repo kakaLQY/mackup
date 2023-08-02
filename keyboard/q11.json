@@ -4,7 +4,7 @@
   "documentation": "\"This file is a QMK Configurator export. You can import this at <https://config.qmk.fm>. It can also be used directly with QMK's source code.\n\nTo setup your QMK environment check out the tutorial: <https://docs.qmk.fm/#/newbs>\n\nYou can convert this file to a keymap.c using this command: `qmk json2c {keymap}`\n\nYou can compile this keymap using this command: `qmk compile {keymap}`\"\n",
   "keyboard": "keychron/q11/ansi_encoder",
   "keymap": "q11",
-  "layout": "LAYOUT_ansi_91",
+  "layout": "LAYOUT_91_ansi",
   "layers": [
     [
       "KC_MUTE",
@@ -161,7 +161,7 @@
       "KC_5",
       "KC_6",
       "KC_TRNS",
-      "KC_TRNS",
+      "KC_GRV",
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
@@ -414,7 +414,7 @@
       "KC_NO",
       "KC_NO",
       "KC_TAB",
-      "KC_Q",
+      "KC_ESC",
       "KC_W",
       "KC_E",
       "KC_R",
