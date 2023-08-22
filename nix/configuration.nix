@@ -194,13 +194,10 @@
   };
 
   services.udev.extraRules = ''
-    KERNEL=="hidraw*",
-    SUBSYSTEM=="hidraw",
-    ATTRS{serial}=="*vial:f64c2b3c*",
-    MODE="0660",
-    GROUP="users",
-    TAG+="uaccess",
-    TAG+="udev-acl"
+    # Vial
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+    # CMSIS-DAP for microbit
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
   '';
 
   # Enable the OpenSSH daemon.
