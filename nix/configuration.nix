@@ -117,7 +117,7 @@
       vivaldi firefox
 
       # Design
-      freecad
+      freecad kicad
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
@@ -136,7 +136,7 @@
       ranger
 
       # IM
-      slack discord
+      slack discord element-desktop
 
       # Java & Clojure
       clojure jdk11 leiningen
@@ -194,8 +194,8 @@
   };
 
   services.udev.extraRules = ''
-    # Vial
-    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{serial}=="*vial:f64c2b3c*", MODE="0660", GROUP="users", TAG+="uaccess", TAG+="udev-acl"
+    # VIA
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0666", TAG+="uaccess", TAG+="udev-acl"
     # CMSIS-DAP for microbit
     SUBSYSTEM=="usb", ATTR{idVendor}=="0d28", ATTR{idProduct}=="0204", MODE:="666"
   '';
