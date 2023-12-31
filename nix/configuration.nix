@@ -11,6 +11,7 @@
 
   # Use the systemd-boot EFI boot loader.
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -24,6 +25,7 @@
   nixpkgs.config = {
     allowUnfree = true;
     permittedInsecurePackages = ["electron-12.2.3"];
+    pulseaudio = true;
   };
 
   nix = {
@@ -56,7 +58,7 @@
     # replicates the default behaviour.
     useDHCP = false;
     enableIPv6 = false;
-    defaultGateway = "10.0.0.2";
+    defaultGateway = "192.168.31.1";
     nameservers = ["8.8.8.8" "114.114.114.114"];
 
     # proxy = {
@@ -73,7 +75,7 @@
     # ];
       wlan0.ipv4.addresses = [
         {
-          address = "10.0.0.170";
+          address = "192.168.31.170";
           prefixLength = 24;
         }
       ];
@@ -101,7 +103,7 @@
   environment = {
     homeBinInPath = true;
     systemPackages = with pkgs; [
-      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg exa exiftool fd file fzf glibc
+      awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg eza exiftool fasd fd file fzf glibc
       git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc mitmproxy
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wally-cli wget yq zip zoom-us
@@ -150,11 +152,6 @@
       # Pass
       (pass.withExtensions (exts: with exts; [pass-otp pass-update pass-import])) zbar pwgen
 
-      # Python
-      (python39.withPackages(ps: with ps; [
-        python-lsp-server virtualenv
-      ]))
-
       # Term
       nushell termite xterm
 
@@ -172,7 +169,7 @@
 
   programs = {
     adb.enable = true;
-    fish.enable = true;
+    # fish.enable = true;
     seahorse.enable = true;
     ssh.startAgent = true;
     gnupg.agent = {
@@ -180,10 +177,36 @@
       pinentryFlavor = "gnome3";
     };
     browserpass.enable = true;
+    zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      enableCompletion = true;
+      syntaxHighlighting.enable = true;
+      setOptions = [ "HIST_FIND_NO_DUPS" ];
+      shellAliases = {
+        h = "cd ~";
+        ll = "ls -l";
+        lla = "ls -la";
+        llf = "ls -l | fzf";
+        llaf = "ls -la | fzf";
+        rgf = "rg --files | fzf";
+        e = "emacsclient -t";
+      };
+      histSize = 50000;
+      ohMyZsh = {
+        enable = true;
+        plugins = [ "aws" "direnv" "fasd" "git" ];
+        theme = "nanotech";
+      };
+    };
   };
 
   # List services that you want to enable:
   services = {
+    emacs = {
+      enable = true;
+      package = pkgs.emacs;
+    };
     journald.extraConfig = "SystemMaxUse=4G";
     openssh.enable = true;
     onedrive.enable = true;
@@ -234,7 +257,8 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-
+    autoRepeatDelay = 200;
+    autoRepeatInterval = 33;
     dpi = 218;
     displayManager = {
       autoLogin = {
@@ -261,8 +285,7 @@
 
     layout = "us";
     xkbOptions = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
-
-    videoDrivers = [ "amdgpu" ];
+    videoDrivers = [ "modesetting" ];
     #
     # config = lib.mkForce ''
     #   Section "Files"
@@ -366,15 +389,18 @@
   # services.xserver.desktopManager.plasma5.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kaka = {
-    shell = "/run/current-system/sw/bin/fish";
-    isNormalUser = true;
-    extraGroups = [ "wheel" "adbusers" "audio" "light" "docker" "vboxusers"]; # Enable ‘sudo’ for the user.
+  users = {
+    defaultUserShell = pkgs.zsh;
+    users.kaka = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" "adbusers" "audio" "light" "docker" "vboxusers"]; # Enable ‘sudo’ for the user.
+    };
   };
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     font-awesome
     jetbrains-mono
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
 
   # This value determines the NixOS release from which the default
@@ -383,6 +409,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
 

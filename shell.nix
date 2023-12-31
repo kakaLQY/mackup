@@ -1,11 +1,11 @@
 with import (builtins.fetchGit {
   url = "https://github.com/NixOS/nixpkgs.git";
   ref = "master";
-  rev = "a5c77f8b933cd3e14f31ebec57ef080d894b6fac";
+  rev = "6e62521155cd3b4cdf6b49ecacf63db2a0cacc73";
 }) {};
 
 mkShell {
   buildInputs = [
-    babashka qmk via vial
+    babashka nixfmt qmk via vial
   ];
 }
