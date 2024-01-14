@@ -141,7 +141,7 @@
       slack discord element-desktop
 
       # Java & Clojure
-      clojure jdk11 leiningen
+      clojure clojure-lsp jdk17 leiningen
 
       # Javascript
       nodejs nodePackages.javascript-typescript-langserver
@@ -157,6 +157,12 @@
 
       # Org Roam
       sqlite graphviz
+
+      # Video
+      obs-studio
+
+      # Driver
+      inxi glxinfo pciutils xorg.xdpyinfo
     ];
     variables = {
       EDITOR = "termite";
@@ -249,17 +255,18 @@
     #   amdgpuBusId = "PCI:10:0:0";
     # };
 
-    # opengl = {
-    #   driSupport32Bit = true;
-    # };
+    opengl = {
+      enable = true;
+      driSupport = true;
+    };
   };
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
     autoRepeatDelay = 200;
-    autoRepeatInterval = 33;
-    dpi = 218;
+    autoRepeatInterval = 25;
+    dpi = 223;
     displayManager = {
       autoLogin = {
         enable = true;
