@@ -6,6 +6,6 @@ with import (builtins.fetchGit {
 
 mkShell {
   buildInputs = [
-    babashka nixfmt qmk via vial
+    babashka nixfmt qmk ventoy-full via vial
   ];
 }
