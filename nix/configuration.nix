@@ -104,7 +104,7 @@
     homeBinInPath = true;
     systemPackages = with pkgs; [
       awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg eza exiftool fasd fd file fzf glibc
-      git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc mitmproxy
+      git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc
       overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wally-cli wget yq zip zoom-us
 
@@ -144,7 +144,7 @@
       clojure clojure-lsp jdk17 leiningen
 
       # Javascript
-      nodejs nodePackages.javascript-typescript-langserver
+      nodejs nodePackages.typescript-language-server
 
       # Network
       v2ray
@@ -209,6 +209,7 @@
 
   # List services that you want to enable:
   services = {
+    blueman.enable = true;
     emacs = {
       enable = true;
       package = pkgs.emacs;
@@ -245,9 +246,14 @@
   hardware = {
     pulseaudio = {
       enable = true;
+      package = pkgs.pulseaudioFull;
       support32Bit = true;
+      extraConfig = "
+        load-module module-switch-on-connect
+      ";
     };
 
+    bluetooth.enable = true;
     keyboard.zsa.enable = true;
 
     # nvidia.prime = {
@@ -290,8 +296,11 @@
       ];
     };
 
-    layout = "us";
-    xkbOptions = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
+    xkb = {
+      layout = "us";
+      options = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
+    };
+
     videoDrivers = [ "modesetting" ];
     #
     # config = lib.mkForce ''
