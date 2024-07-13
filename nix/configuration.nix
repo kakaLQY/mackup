@@ -105,8 +105,8 @@
     systemPackages = with pkgs; [
       awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg eza exiftool fasd fd file fzf glibc
       git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc
-      overmind pavucontrol pinentry-gnome polybarFull pstree ripgrep scrot tmux
-      tree unzip xclip wally-cli wget yq zip zoom-us
+      overmind pavucontrol polybarFull pstree ripgrep scrot tmux
+      tree unzip xclip wally-cli wget yq zip zoom-us zoxide
 
       # AppImage
       (appimage-run.override {
@@ -119,7 +119,7 @@
       vivaldi firefox
 
       # Design
-      freecad kicad
+      freecad
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
@@ -129,16 +129,16 @@
       docker-compose docker-credential-helpers
 
       # Editor
-      emacs vim neovim libreoffice-qt
+      emacs vim neovim lazygit libreoffice-qt
 
       # Email
       mu isync
 
       # File manager
-      ranger
+      ranger yazi ueberzugpp
 
       # IM
-      slack discord element-desktop
+      slack discord
 
       # Java & Clojure
       clojure clojure-lsp jdk17 leiningen
@@ -157,9 +157,6 @@
 
       # Org Roam
       sqlite graphviz
-
-      # Video
-      obs-studio
 
       # Driver
       inxi glxinfo pciutils xorg.xdpyinfo
@@ -180,7 +177,7 @@
     ssh.startAgent = true;
     gnupg.agent = {
       enable = true;
-      pinentryFlavor = "gnome3";
+      pinentryPackage = pkgs.pinentry-gnome3;
     };
     browserpass.enable = true;
     zsh = {
@@ -275,7 +272,7 @@
     dpi = 223;
     displayManager = {
       autoLogin = {
-        enable = true;
+        enable = false;
         user = "kaka";
       };
       lightdm.enable = true;
@@ -301,84 +298,24 @@
       options = "ctrl:swap_lwin_lctl,ctrl:nocaps,shift:both_capslock";
     };
 
+    xrandrHeads = [
+      {
+        output = "DP-4";
+        monitorConfig = ''
+          Option "Rotate" "Left"
+        '';
+      }
+      {
+        output = "DP-5";
+        primary = true;
+        monitorConfig = ''
+          Option "DPMS" "false"
+          Option "RightOf" "DP-4"
+        '';
+      }
+    ];
+
     videoDrivers = [ "modesetting" ];
-    #
-    # config = lib.mkForce ''
-    #   Section "Files"
-
-    #     FontPath "/nix/store/5yi2h0bd8rv7j2hncsi0cz1lc4pqha5n-unifont-14.0.01/share/fonts"
-    #     FontPath "/nix/store/chv3dnpi3p6gs90yq32pjf22vanv7kps-font-cursor-misc-1.0.3/lib/X11/fonts/misc"
-    #     FontPath "/nix/store/sc291h778q3r09qg0mmk03zkxh79059l-font-misc-misc-1.1.2/lib/X11/fonts/misc"
-    #     FontPath "/nix/store/ijl2p5waslqmn08hxw845xn28nja7jfj-font-bh-lucidatypewriter-100dpi-1.0.3/lib/X11/fonts/100dpi"
-    #     FontPath "/nix/store/lc4lk2kmliwgcrmvjxhs7kjrny3jxnl1-font-bh-lucidatypewriter-75dpi-1.0.3/lib/X11/fonts/75dpi"
-    #     FontPath "/nix/store/90bmxnidzaryki1wrv279k991licp3p7-font-bh-100dpi-1.0.3/lib/X11/fonts/100dpi"
-    #     FontPath "/nix/store/dgjb180mwc93prr3qlrlxb58wjdka418-font-adobe-100dpi-1.0.3/lib/X11/fonts/100dpi"
-    #     FontPath "/nix/store/kqrzsyvmrmdim4njdsjjcw4l7m3y9qc7-font-adobe-75dpi-1.0.3/lib/X11/fonts/75dpi"
-    #     ModulePath "/nix/store/d22xq6ic075q5ampv1dhs65qh3kr9fcl-xf86-video-amdgpu-21.0.0/lib/xorg/modules/drivers"
-    #     ModulePath "/nix/store/d22xq6ic075q5ampv1dhs65qh3kr9fcl-xf86-video-amdgpu-21.0.0/lib/xorg/modules/drivers"
-    #     ModulePath "/nix/store/cfssfgg5p432xqaap64ghm116kpfbvrs-nvidia-x11-495.44-5.15.29-bin/lib/xorg/modules/drivers"
-    #     ModulePath "/nix/store/cfssfgg5p432xqaap64ghm116kpfbvrs-nvidia-x11-495.44-5.15.29-bin/lib/xorg/modules/extensions"
-    #     ModulePath "/nix/store/7yii0wrh8mhxc57zdv9k911i27yykp56-xorg-server-1.20.13/lib/xorg/modules"
-    #     ModulePath "/nix/store/7yii0wrh8mhxc57zdv9k911i27yykp56-xorg-server-1.20.13/lib/xorg/modules/drivers"
-    #     ModulePath "/nix/store/7yii0wrh8mhxc57zdv9k911i27yykp56-xorg-server-1.20.13/lib/xorg/modules/extensions"
-    #     ModulePath "/nix/store/hy4yakha9dk5jq233zhsvih1mza1r3vg-xf86-input-evdev-2.10.6/lib/xorg/modules/input"
-
-    #   EndSection
-
-    #   Section "ServerFlags"
-    #     Option "AllowMouseOpenFail" "on"
-    #     Option "DontZap" "on"
-    #   EndSection
-
-    #   Section "Module"
-
-    #   EndSection
-
-    #   Section "Monitor"
-    #     Identifier "Monitor[0]"
-    #   EndSection
-
-    #   Section "Monitor"
-    #     Identifier "DisplayPort-2"
-    #     Option "Rotate" "left"
-    #   EndSection
-
-    #   Section "ServerLayout"
-    #     Identifier "Layout[all]"
-    #     Inactive "Device-nvidia[0]"
-
-    #     # Reference the Screen sections for each driver.  This will
-    #     # cause the X server to try each in turn.
-    #     Screen "Screen-amdgpu[0]"
-    #     Screen "Screen-amdgpu[1]"
-    #   EndSection
-
-    #   Section "Device"
-    #     Identifier "Device-amdgpu[0]"
-    #     Driver "amdgpu"
-    #     BusID "PCI:10:0:0"
-    #   EndSection
-
-    #   Section "Device"
-    #     Identifier "Device-nvidia[0]"
-    #     Driver "nvidia"
-    #     BusID "PCI:4:0:0"
-    #   EndSection
-
-    #   Section "Screen"
-    #     Identifier "Screen-amdgpu[0]"
-    #     Monitor    "Monitor[0]"
-    #     Device "Device-amdgpu[0]"
-    #     Option "RandRRotation" "on"
-    #   EndSection
-
-    #   Section "Screen"
-    #     Identifier "Screen-amdgpu[1]"
-    #     Monitor    "DisplayPort-2"
-    #     Device "Device-amdgpu[0]"
-    #     Option "RandRRotation" "on"
-    #   EndSection
-    # '';
   };
 
   virtualisation = {
