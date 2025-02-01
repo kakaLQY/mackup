@@ -25,11 +25,9 @@
   nixpkgs.config = {
     allowUnfree = true;
     permittedInsecurePackages = ["electron-12.2.3"];
-    pulseaudio = true;
   };
 
   nix = {
-    package = pkgs.nixFlakes; # or versioned attributes like nixVersions.nix_2_8
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -86,7 +84,8 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
-      enabled = "ibus";
+      type = "ibus";
+      enable = true;
       ibus.engines = with pkgs.ibus-engines; [ libpinyin uniemoji ];
     };
   };
@@ -104,7 +103,7 @@
     homeBinInPath = true;
     systemPackages = with pkgs; [
       awscli2 bash bat bitcoind cacert certbot cloc direnv dpkg eza exiftool fasd fd file fzf glibc
-      git gnumake gnome3.adwaita-icon-theme jq libsecret lsof lshw pandoc
+      git gnumake adwaita-icon-theme jq libsecret lsof lshw pandoc
       overmind pavucontrol polybarFull pstree ripgrep scrot tmux
       tree unzip xclip wally-cli wget yq zip zoom-us zoxide
 
@@ -159,7 +158,7 @@
       sqlite graphviz
 
       # Driver
-      inxi glxinfo pciutils xorg.xdpyinfo
+      alsa-utils inxi glxinfo pciutils xorg.xdpyinfo
     ];
     variables = {
       EDITOR = "termite";
@@ -204,6 +203,7 @@
     };
   };
 
+  security.rtkit.enable = true;
   # List services that you want to enable:
   services = {
     blueman.enable = true;
@@ -218,6 +218,27 @@
     nscd.enable = true;
     teamviewer.enable = true;
     udisks2.enable = true;
+    pipewire = {
+      enable = true; # if not already enabled
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+      wireplumber.extraConfig."10-bluez" = {
+        "monitor.bluez.properties" = {
+          "bluez5.enable-sbc-xq" = true;
+          "bluez5.enable-msbc" = true;
+          "bluez5.enable-hw-volume" = true;
+          "bluez5.roles" = [
+            "hsp_hs"
+            "hsp_ag"
+            "hfp_hf"
+            "hfp_ag"
+          ];
+        };
+      };
+    };
   };
 
   services.udev.extraRules = ''
@@ -238,46 +259,32 @@
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
-  sound.enable = true;
   hardware = {
-    pulseaudio = {
-      enable = true;
-      package = pkgs.pulseaudioFull;
-      support32Bit = true;
-      extraConfig = "
-        load-module module-switch-on-connect
-      ";
-    };
-
     bluetooth.enable = true;
     keyboard.zsa.enable = true;
+    graphics.enable = true;
 
     # nvidia.prime = {
     #   nvidiaBusId = "PCI:4:0:0";
     #   amdgpuBusId = "PCI:10:0:0";
     # };
-
-    opengl = {
-      enable = true;
-      driSupport = true;
-    };
   };
 
   # Enable the X11 windowing system.
+  services.displayManager = {
+    defaultSession = "none+i3";
+    autoLogin = {
+      enable = true;
+      user = "kaka";
+    };
+  };
+
   services.xserver = {
     enable = true;
     autoRepeatDelay = 200;
     autoRepeatInterval = 25;
     dpi = 223;
-    displayManager = {
-      autoLogin = {
-        enable = false;
-        user = "kaka";
-      };
-      lightdm.enable = true;
-      defaultSession = "none+i3";
-    };
+    displayManager.lightdm.enable = true;
 
     desktopManager = {
       xterm.enable = false;
