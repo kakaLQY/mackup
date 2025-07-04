@@ -4,5 +4,10 @@
  :tasks
  {q11 ;; https://config.qmk.fm/#/keychron/q11/ansi_encoder/LAYOUT_ansi_91
   {:task (shell "qmk flash keyboard/q11.json")}
+
+  adjust-screen
+  {:task (do (shell "xrandr" "--output" "DP-4" "--auto")
+             (shell "sleep" "5")
+             (shell "xrandr" "--output" "DP-5" "--auto" "--right-of" "DP-4"))}
   }
  }

@@ -3,7 +3,12 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  unstable = import
+    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
+    # reuse the current configuration
+    { config = config.nixpkgs.config; };
+in
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -51,6 +56,10 @@
       interfaces = ["wlan0"];
     };
 
+    extraHosts =
+      ''
+        192.168.31.170 ai
+      '';
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
@@ -112,10 +121,10 @@
         extraPkgs = pkgs: [ pkgs.xorg.libxshmfence ];
       })
       # Android
-      android-studio
+      # android-studio
 
       # Browser
-      vivaldi firefox
+      vivaldi firefox chromedriver chromium
 
       # Design
       freecad
@@ -129,6 +138,7 @@
 
       # Editor
       emacs vim neovim lazygit libreoffice-qt
+      # unstable.code-cursor
 
       # Email
       mu isync
@@ -140,7 +150,7 @@
       slack discord
 
       # Java & Clojure
-      clojure clojure-lsp jdk17 leiningen
+      clojure clojure-lsp jdk
 
       # Javascript
       nodejs nodePackages.typescript-language-server
@@ -216,7 +226,7 @@
     onedrive.enable = true;
     gnome.gnome-keyring.enable = true;
     nscd.enable = true;
-    teamviewer.enable = true;
+    teamviewer.enable = false;
     udisks2.enable = true;
     pipewire = {
       enable = true; # if not already enabled
@@ -239,6 +249,16 @@
         };
       };
     };
+    # ollama = {
+    #   enable = true;
+    #   acceleration = "rocm";
+    #   loadModels = [ "deepseek-r1:7b" "deepseek-r1:8b" "deepseek-r1:14b" ];
+    # };
+    # open-webui = {
+    #   enable = true;
+    #   host = "0.0.0.0";
+    #   port = 11111;
+    # };
   };
 
   services.udev.extraRules = ''
@@ -360,7 +380,7 @@
   fonts.packages = with pkgs; [
     font-awesome
     jetbrains-mono
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+    pkgs.nerd-fonts.symbols-only
   ];
 
   # This value determines the NixOS release from which the default
@@ -369,6 +389,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 }
 
