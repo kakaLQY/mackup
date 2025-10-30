@@ -21,7 +21,7 @@ in
       timeout = 3;
       systemd-boot = {
         enable = true;
-        configurationLimit = 50;
+        configurationLimit = 10;
       };
       efi.canTouchEfiVariables = true;
     };
@@ -127,7 +127,7 @@ in
       vivaldi firefox chromedriver chromium
 
       # Design
-      freecad
+      freecad bambu-studio
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
