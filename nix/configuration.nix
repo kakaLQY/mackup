@@ -21,7 +21,7 @@ in
       timeout = 3;
       systemd-boot = {
         enable = true;
-        configurationLimit = 10;
+        configurationLimit = 20;
       };
       efi.canTouchEfiVariables = true;
     };
@@ -144,7 +144,7 @@ in
       mu isync
 
       # File manager
-      ranger yazi ueberzugpp
+      ranger yazi ueberzugpp cifs-utils
 
       # IM
       slack discord
@@ -226,6 +226,7 @@ in
     onedrive.enable = true;
     gnome.gnome-keyring.enable = true;
     nscd.enable = true;
+    samba.enable = true;
     teamviewer.enable = false;
     udisks2.enable = true;
     pipewire = {
@@ -382,6 +383,16 @@ in
     jetbrains-mono
     pkgs.nerd-fonts.symbols-only
   ];
+
+  fileSystems."/mnt/mac" = {
+    device = "//192.168.31.66/kaka";
+    fsType = "cifs";
+    options = let
+      # this line prevents hanging on network split
+      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,user,users";
+
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
