@@ -17,6 +17,7 @@ in
   # Use the systemd-boot EFI boot loader.
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+    initrd.kernelModules = ["amdgpu"];
     loader = {
       timeout = 3;
       systemd-boot = {
@@ -168,7 +169,7 @@ in
       sqlite graphviz
 
       # Driver
-      alsa-utils inxi glxinfo pciutils xorg.xdpyinfo
+      alsa-utils inxi mesa-demos pciutils xorg.xdpyinfo
     ];
     variables = {
       EDITOR = "termite";
@@ -183,7 +184,6 @@ in
     adb.enable = true;
     # fish.enable = true;
     seahorse.enable = true;
-    ssh.startAgent = true;
     gnupg.agent = {
       enable = true;
       pinentryPackage = pkgs.pinentry-gnome3;
@@ -213,7 +213,10 @@ in
     };
   };
 
-  security.rtkit.enable = true;
+  security = {
+    rtkit.enable = true;
+  };
+
   # List services that you want to enable:
   services = {
     blueman.enable = true;
@@ -306,7 +309,6 @@ in
     autoRepeatInterval = 25;
     dpi = 223;
     displayManager.lightdm.enable = true;
-
     desktopManager = {
       xterm.enable = false;
     };
@@ -328,17 +330,17 @@ in
 
     xrandrHeads = [
       {
-        output = "DP-4";
+        output = "DP-3";
         monitorConfig = ''
           Option "Rotate" "Left"
         '';
       }
       {
-        output = "DP-5";
+        output = "DP-4";
         primary = true;
         monitorConfig = ''
           Option "DPMS" "false"
-          Option "RightOf" "DP-4"
+          Option "RightOf" "DP-3"
         '';
       }
     ];
@@ -381,6 +383,10 @@ in
   fonts.packages = with pkgs; [
     font-awesome
     jetbrains-mono
+    noto-fonts
+    noto-fonts-cjk-sans  # <- Add this
+    noto-fonts-cjk-serif # <- And/or this
+    noto-fonts-color-emoji
     pkgs.nerd-fonts.symbols-only
   ];
 

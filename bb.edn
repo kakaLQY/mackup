@@ -6,8 +6,8 @@
   {:task (shell "qmk flash keyboard/q11.json")}
 
   adjust-screen
-  {:task (do (shell "xrandr" "--output" "DP-4" "--auto")
+  {:task (do (shell "xrandr" "--output" "DP-3" "--auto")
              (shell "sleep" "5")
-             (shell "xrandr" "--output" "DP-5" "--auto" "--right-of" "DP-4"))}
+             (shell "xrandr" "--output" "DP-4" "--auto" "--right-of" "DP-3"))}
   }
  }
