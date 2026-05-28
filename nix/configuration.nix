@@ -138,7 +138,7 @@ in
       docker-compose docker-credential-helpers
 
       # Editor
-      emacs vim neovim lazygit libreoffice-qt
+      claude-code codex emacs vim neovim lazygit libreoffice-qt
       # unstable.code-cursor
 
       # Email
@@ -203,6 +203,7 @@ in
         llaf = "ls -la | fzf";
         rgf = "rg --files | fzf";
         e = "emacsclient -t";
+        ccd = "claude --settings ~/.claude/settings_deepseek.json";
       };
       histSize = 50000;
       ohMyZsh = {
