@@ -4,10 +4,9 @@
 
 { config, pkgs, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
-    # reuse the current configuration
-    { config = config.nixpkgs.config; };
+  unstable = import <nixos-unstable> {
+    config.allowUnfree = true;
+  };
 in
 {
   imports = [ # Include the results of the hardware scan.
@@ -30,10 +29,14 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = ["electron-12.2.3"];
+    permittedInsecurePackages = ["electron-12.2.3" "docker-28.5.2"];
   };
 
   nix = {
+    # settings = {
+    #   max-jobs = 1;
+    #   cores = 1;
+    # };
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -128,7 +131,7 @@ in
       vivaldi firefox chromedriver chromium
 
       # Design
-      freecad
+      unstable.freecad
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
@@ -204,6 +207,7 @@ in
         rgf = "rg --files | fzf";
         e = "emacsclient -t";
         ccd = "claude --settings ~/.claude/settings_deepseek.json";
+        ccs = "claude --settings ~/.claude/settings_solidcraft.json";
       };
       histSize = 50000;
       ohMyZsh = {
@@ -349,6 +353,12 @@ in
     videoDrivers = [ "modesetting" ];
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config.common.default = [ "gtk" ];
+  };
+
   virtualisation = {
     docker = {
       enable = true;
@@ -398,7 +408,7 @@ in
       # this line prevents hanging on network split
       automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s,user,users";
 
-    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100"];
+    in ["${automount_opts},credentials=/etc/nixos/smb-secrets,uid=1000,gid=100,nounix,sec=ntlmssp,vers=2.1,noatime"];
   };
 
   # This value determines the NixOS release from which the default
