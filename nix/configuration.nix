@@ -131,7 +131,7 @@ in
       vivaldi firefox chromedriver chromium
 
       # Design
-      unstable.freecad
+      freecad
 
       # Dict
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
@@ -141,7 +141,7 @@ in
       docker-compose docker-credential-helpers
 
       # Editor
-      claude-code codex emacs vim neovim lazygit libreoffice-qt
+      unstable.claude-code codex unstable.emacs vim neovim lazygit libreoffice-qt
       # unstable.code-cursor
 
       # Email
@@ -337,7 +337,9 @@ in
       {
         output = "DP-3";
         monitorConfig = ''
+          # 4K panel rotated left -> 2160x3840 on screen
           Option "Rotate" "Left"
+          Option "PreferredMode" "3840x2160"
         '';
       }
       {
@@ -345,7 +347,7 @@ in
         primary = true;
         monitorConfig = ''
           Option "DPMS" "false"
-          Option "RightOf" "DP-3"
+          Option "PreferredMode" "6144x3456"
         '';
       }
     ];
